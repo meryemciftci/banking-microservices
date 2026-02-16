@@ -1,0 +1,11 @@
+dependencies {
+    implementation rootProject.ext.libs.springBootStarterWeb
+    implementation rootProject.ext.libs.springBootStarterDataJpa
+    implementation rootProject.ext.libs.springBootStarterValidation
+    implementation rootProject.ext.libs.springCloudEurekaClient
+    implementation rootProject.ext.libs.springCloudConfigClient
+    implementation rootProject.ext.libs.springBootStarterAmqp
+    implementation rootProject.ext.libs.springBootStarterActuator
+    implementation rootProject.ext.libs.postgresql
+    implementation rootProject.ext.libs.swaggerUi
+}

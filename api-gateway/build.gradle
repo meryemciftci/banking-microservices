@@ -1,0 +1,6 @@
+dependencies {
+    implementation rootProject.ext.libs.springCloudGateway
+    implementation rootProject.ext.libs.springCloudEurekaClient
+    implementation rootProject.ext.libs.springCloudConfigClient
+    implementation rootProject.ext.libs.springBootStarterActuator
+}
