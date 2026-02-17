@@ -7,7 +7,7 @@ spring:
   config:
     import: "optional:configserver:http://localhost:8888"
   datasource:
-    url: jdbc:postgresql://localhost:5432/AccountDB
+    url: jdbc:postgresql://localhost:5432/BankingAccountDB
     username: ${DB_USERNAME:postgres}
     password: ${DB_PASSWORD:changeme}
     driver-class-name: org.postgresql.Driver
