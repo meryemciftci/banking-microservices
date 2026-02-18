@@ -5,9 +5,10 @@ dependencies {
     implementation rootProject.ext.libs.springCloudEurekaClient
     implementation rootProject.ext.libs.springCloudConfigClient
     implementation rootProject.ext.libs.springCloudOpenFeign
-    implementation rootProject.ext.libs.springCloudCircuitBreaker
+    implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
     implementation rootProject.ext.libs.springBootStarterAmqp
     implementation rootProject.ext.libs.springBootStarterActuator
     implementation rootProject.ext.libs.postgresql
     implementation rootProject.ext.libs.swaggerUi
+    implementation 'io.github.resilience4j:resilience4j-spring-boot3:2.2.0'
 }
