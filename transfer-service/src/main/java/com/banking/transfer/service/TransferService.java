@@ -13,7 +13,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import com.banking.transfer.config.RabbitMQConfig;
+import com.banking.transfer.dto.event.TransferEvent;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -24,6 +26,7 @@ public class TransferService {
 
     private final TransferRepository transferRepository;
     private final AccountServiceClient accountServiceClient;
+    private final RabbitTemplate rabbitTemplate;
 
     @Transactional
     @CircuitBreaker(name = "accountService", fallbackMethod = "transferFallback")
@@ -80,6 +83,21 @@ public class TransferService {
             // 7. Update transfer status
             transfer.setStatus(TransferStatus.COMPLETED);
             transferRepository.save(transfer);
+            // 8. Send events to RabbitMQ
+            TransferEvent event = TransferEvent.builder()
+                    .transferId(transfer.getId())
+                    .senderIban(transfer.getSenderIban())
+                    .receiverIban(transfer.getReceiverIban())
+                    .amount(transfer.getAmount())
+                    .description(transfer.getDescription())
+                    .status(transfer.getStatus().name())
+                    .createdAt(transfer.getCreatedAt())
+                    .build();
+
+            rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE, RabbitMQConfig.TRANSACTION_ROUTING_KEY, event);
+            rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE, RabbitMQConfig.NOTIFICATION_ROUTING_KEY, event);
+
+            log.info("Transfer events sent to RabbitMQ");
 
             log.info("Transfer completed: {} -> {} amount: {}",
                     request.getSenderIban(), request.getReceiverIban(), request.getAmount());
