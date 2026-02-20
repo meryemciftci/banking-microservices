@@ -16,6 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import com.banking.transfer.config.RabbitMQConfig;
 import com.banking.transfer.dto.event.TransferEvent;
+import com.banking.transfer.manager.FraudCheckRequest;
+import com.banking.transfer.manager.FraudServiceClient;
+import java.util.Map;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -27,7 +30,7 @@ public class TransferService {
     private final TransferRepository transferRepository;
     private final AccountServiceClient accountServiceClient;
     private final RabbitTemplate rabbitTemplate;
-
+    private final FraudServiceClient fraudServiceClient;
     @Transactional
     @CircuitBreaker(name = "accountService", fallbackMethod = "transferFallback")
     public TransferResponse transfer(TransferRequest request) {
@@ -67,6 +70,24 @@ public class TransferService {
                 .build();
         transferRepository.save(transfer);
 
+        // 5. Fraud check
+        try {
+            FraudCheckRequest fraudRequest = FraudCheckRequest.builder()
+                    .transferId(transfer.getId())
+                    .senderIban(request.getSenderIban())
+                    .receiverIban(request.getReceiverIban())
+                    .amount(request.getAmount())
+                    .build();
+
+            Map<String, Boolean> fraudResult = fraudServiceClient.checkFraud(fraudRequest).getBody();
+            if (fraudResult != null && fraudResult.get("isFraud")) {
+                transfer.setStatus(TransferStatus.REJECTED);
+                transferRepository.save(transfer);
+                return toResponse(transfer);
+            }
+        } catch (Exception e) {
+            log.warn("Fraud service unavailable, proceeding with transfer: {}", e.getMessage());
+        }
         try {
             // 5. Deduct from sender
             accountServiceClient.updateBalance(UpdateBalanceRequest.builder()
