@@ -1,3 +1,4 @@
 dependencies {
     implementation rootProject.ext.libs.springCloudEurekaServer
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
 }

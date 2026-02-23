@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Map;
 
-@FeignClient(name = "FRAUD-DETECTION-SERVICE", url = "http://localhost:9095")
+@FeignClient(name = "FRAUD-DETECTION-SERVICE")
 public interface FraudServiceClient {
 
     @PostMapping("/api/v1/fraud/check")

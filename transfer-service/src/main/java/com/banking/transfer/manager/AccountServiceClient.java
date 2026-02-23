@@ -5,7 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(name = "ACCOUNT-SERVICE", url = "http://localhost:9091")
+@FeignClient(name = "ACCOUNT-SERVICE")
 public interface AccountServiceClient {
 
     @GetMapping("/api/v1/accounts/{iban}")
