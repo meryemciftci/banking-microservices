@@ -1,10 +1,10 @@
-# 💳 Banking Microservices Platform
+# Banking Microservices Platform
 
 A scalable banking platform built with **Spring Boot 3** and **Spring Cloud**, designed using a microservices architecture. It handles authentication, account management, money transfers, fraud detection, and event-driven processing.
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
                           ┌─────────────────┐
@@ -31,7 +31,7 @@ A scalable banking platform built with **Spring Boot 3** and **Spring Cloud**, d
 
 ---
 
-## 🚀 Tech Stack
+## Tech Stack
 
 - **Backend:** Java 21, Spring Boot 3, Spring Cloud  
 - **Database:** PostgreSQL  
@@ -47,7 +47,7 @@ A scalable banking platform built with **Spring Boot 3** and **Spring Cloud**, d
 
 ---
 
-## 🧩 Microservices
+## Microservices
 
 | Service | Port | Description |
 |--------|------|------------|
@@ -63,7 +63,7 @@ A scalable banking platform built with **Spring Boot 3** and **Spring Cloud**, d
 
 ---
 
-## ⚙️ How It Works
+## How It Works
 
 1. User registers and logs in via **Auth Service** → receives JWT  
 2. Accounts are created via **Account Service** (IBAN generated)  
@@ -75,7 +75,7 @@ A scalable banking platform built with **Spring Boot 3** and **Spring Cloud**, d
 
 ---
 
-## 🚨 Fraud Rules
+## Fraud Rules
 
 - Blacklisted IBAN → rejected  
 - Daily limit → 50,000 TL  
@@ -84,7 +84,7 @@ A scalable banking platform built with **Spring Boot 3** and **Spring Cloud**, d
 
 ---
 
-## ▶️ Run with Docker
+## Run with Docker
 
 ```bash
 ./gradlew clean bootJar
@@ -93,7 +93,7 @@ docker-compose up --build
 
 ---
 
-## ▶️ Run Locally
+## Run Locally
 
 ```bash
 export DB_PASSWORD=your_password
@@ -110,7 +110,7 @@ export DB_PASSWORD=your_password
 
 ---
 
-## 🌐 API Gateway
+##  API Gateway
 
 Base URL:
 
@@ -120,7 +120,7 @@ http://localhost:8085
 
 ---
 
-## 📡 API Endpoints
+## API Endpoints
 
 ### Auth
 ```
@@ -166,7 +166,7 @@ DELETE /api/v1/fraud/blacklist/{iban}
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 banking-microservices/
@@ -189,7 +189,7 @@ banking-microservices/
 
 ---
 
-## 🗄️ Databases
+##  Databases
 
 | Database | Service |
 |----------|--------|
